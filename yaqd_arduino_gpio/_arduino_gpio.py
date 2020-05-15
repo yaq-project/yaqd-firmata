@@ -5,9 +5,12 @@ from typing import Dict, Any, List
 import pyfirmata
 from yaqd_core import Base
 
+from .__version__ import __branch__
+
 
 class ArduinoGpio(Base):
     _kind = "arduino-gpio"
+    _version = "0.1.0" + f"+{__branch__}" if __branch__ else ""
     traits: List[str] = []
     defaults: Dict[str, Any] = {}
 
@@ -16,7 +19,7 @@ class ArduinoGpio(Base):
         # Perform any unique initialization
         self.pinNumber = config["index"]
         self.mode = config["mode"]
-        
+
         if self.mode == 'digital':
             self.board = pyfirmata.digital[self.pinNumber]
         elif self.mode == 'analog':
@@ -50,10 +53,10 @@ class ArduinoGpio(Base):
             assert position <= 5
         self.board.write(position)
         self.value = self.board.read()
-    
+
     def get_position(self):
         return self.value
-    
+
     def get_mode(self):
         return self.mode
 
