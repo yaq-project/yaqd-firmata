@@ -15,7 +15,7 @@ with open("README.md") as readme_file:
     readme = readme_file.read()
 
 
-requirements = ["yaqd-core","pyfirmata"]
+requirements = ["yaqd-core>=2020.05.1","pyfirmata"]
 
 extra_requirements = {"dev": ["black", "pre-commit"]}
 extra_files = {"yaqd_arduino_gpio": ["VERSION"]}
