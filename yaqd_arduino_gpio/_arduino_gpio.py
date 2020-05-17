@@ -14,14 +14,15 @@ class ArduinoGpio(Base):
     def __init__(self, name, config, config_filepath):
         super().__init__(name, config, config_filepath)
         # Perform any unique initialization
+        self.board = pyfirmata.Arduino(config["board"])
         self.pinNumber = config["index"]
         self.mode = config["mode"]
         
         if self.mode == 'digital':
-            self.board = pyfirmata.digital[self.pinNumber]
+            self._pin = self.board.digital[self.pinNumber]
         elif self.mode == 'analog':
-            self.board = pyfirmata.analog[self.pinNumber]
-        self.value = self.board.read()
+            self._pin = self.board.analog[self.pinNumber]
+        self.value = self._pin.read()
 
     def _load_state(self, state):
         """Load an initial state from a dictionary (typically read from the state.toml file).
