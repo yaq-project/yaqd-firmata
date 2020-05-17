@@ -52,8 +52,8 @@ class ArduinoGpio(Base):
             assert position == 1 or position == 0
         elif self.mode == "analog":
             assert position <= 5
-        self.board.write(position)
-        self.value = self.board.read()
+        self._pin.write(position)
+        self.value = self._pin.read()
 
     def get_position(self):
         return self.value
