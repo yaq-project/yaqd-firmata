@@ -4,24 +4,29 @@ import asyncio
 from typing import Dict, Any, List
 import pyfirmata
 from yaqd_core import Base
+import subprocess
 
 
 class ArduinoGpio(Base):
     _kind = "arduino-gpio"
     traits: List[str] = []
-    defaults: Dict[str, Any] = {}
+    defaults: Dict[str, Any] = {"pin":2,
+                                "mode":"digital",
+                                "port":"COM5"
+                                }
 
     def __init__(self, name, config, config_filepath):
         super().__init__(name, config, config_filepath)
         # Perform any unique initialization
-        self.pinNumber = config["index"]
-        self.mode = config["mode"]
-        
-        if self.mode == 'digital':
-            self.board = pyfirmata.digital[self.pinNumber]
-        elif self.mode == 'analog':
-            self.board = pyfirmata.analog[self.pinNumber]
-        self.value = self.board.read()
+        #arduinoProg 
+        #arduinoCommand = arduinoProg + " --" + actionLine + " --board " + boardLine + " --port " + portLine + " " + projectFile
+        #subprocess.call(arduinoCommand, shell=True)
+        self.board = pyfirmata.Arduino(config["board"])
+        self.pinNumber = config["pin"]
+        self.mode = config["mode"] # in this case a for analog and d for digital
+        self.io = config["io"] # i is input and o is output
+        self._pin = self.board.get_pin(f"{self.mode}:{self.pinNumber}:{self.io}")
+        self.value = self._pin.read()
 
     def _load_state(self, state):
         """Load an initial state from a dictionary (typically read from the state.toml file).
@@ -44,19 +49,18 @@ class ArduinoGpio(Base):
         return state
 
     def set_position(self, position):
-        if self.mode == "digital":
+        if self.mode == "d":
             assert position == 1 or position == 0
-        elif self.mode == "analog":
-            assert position <= 5
-        self.board.write(position)
-        self.value = self.board.read()
+            self._pin.write(position)
+        elif self.mode == "a":
+            print('Analogs are only inputs not outputs')
+        self.value = self._pin.read()
     
     def get_position(self):
         return self.value
     
     def get_mode(self):
         return self.mode
-
     async def update_state(self):
         """Continually monitor and update the current daemon state."""
         # If there is no state to monitor continuously, delete this function
@@ -71,3 +75,18 @@ class ArduinoGpio(Base):
                 await self._busy_sig.wait()
             else:
                 await asyncio.sleep(0.01)
+
+
+#if __name__ == "__main__": 
+#    config = {"port":38002,"board":"COM5","index":2, "mode": "digital"}
+#    cl = ArduinoGpio('uno',config,"")
+
+
+
+
+
+
+
+
+
+
