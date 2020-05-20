@@ -67,11 +67,11 @@ class ArduinoGpio(Base):
             # This one waits for something to trigger the "busy" state
             # (Setting `self._busy = True)
             # Otherwise, you can simply `await asyncio.sleep(0.01)`
-            if self.mode == 'analog':
+            if self.mode == 'a':
                 await self._busy_sig.wait()
             else:
                 await asyncio.sleep(0.01)
 
 
 if __name__ == "__main__": 
-     ArduinoGpio()
+    ArduinoGpio.main()
