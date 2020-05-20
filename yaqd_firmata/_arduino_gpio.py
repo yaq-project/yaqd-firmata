@@ -23,9 +23,7 @@ class ArduinoGpio(Base):
         self.mode = config["mode"] # in this case a for analog and d for digital
         self.io = config["io"] # i is input and o is output
         self._pin = self.board.get_pin(f"{self.mode}:{self.pinNumber}:{self.io}")
-        self.board = pyfirmata.Arduino(config["board"])
-        self.pinNumber = config["index"]
-        self.mode = config["mode"]
+        self.value = self._pin.read()
         
     def _load_state(self, state):
         """Load an initial state from a dictionary (typically read from the state.toml file).
