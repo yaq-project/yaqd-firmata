@@ -37,7 +37,7 @@ setup(
     description="yaq daemon for using microcontrollers with firmata protocol",
     entry_points={
         "console_scripts": [
-            "yaqd-firmata=yaqd_firmata._arduino_gpio:ArduinoGpio.main",
+            "yaqd-arduino=yaqd_firmata._arduino_gpio:ArduinoGpio.main",
         ],
     },
     install_requires=requirements,
@@ -50,7 +50,7 @@ setup(
     keywords="yaqd_firmata",
     name="yaqd_firmata",
     packages=find_packages(include=["yaqd_firmata", "yaqd_firmata.*"]),
-    url="https://gitlab.com/bmehlenbacher/yaqd_firmata",
+    url="https://gitlab.com/yaq/yaqd_firmata",
     version=version,
     zip_safe=False,
 )
