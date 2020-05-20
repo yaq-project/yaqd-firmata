@@ -6,12 +6,12 @@ import pyfirmata
 from yaqd_core import Base
 
 
-#from .__version__ import __branch__
+from .__version__ import __branch__
 
 
 class ArduinoGpio(Base):
     _kind = "arduino-gpio"
-    _version = "0.1.0" #+ f"+{__branch__}" if __branch__ else ""
+    _version = "0.1.0" + f"+{__branch__}" if __branch__ else ""
     traits: List[str] = []
     defaults: Dict[str, Any] = {}
 
@@ -71,12 +71,11 @@ class ArduinoGpio(Base):
             # This one waits for something to trigger the "busy" state
             # (Setting `self._busy = True)
             # Otherwise, you can simply `await asyncio.sleep(0.01)`
-            if self.mode == 'analog':
+            if self.mode == 'a':
                 await self._busy_sig.wait()
             else:
                 await asyncio.sleep(0.01)
 
 
-#if __name__ == "__main__": 
-#    config = {"port":38002,"board":"COM5","index":2, "mode": "digital"}
-#    cl = ArduinoGpio('uno',config,"")
+if __name__ == "__main__": 
+    ArduinoGpio.main()
