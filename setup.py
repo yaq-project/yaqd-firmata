@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 
 here = pathlib.Path(__file__).parent
 
-with open(here / "yaqd_arduino_gpio" / "VERSION") as version_file:
+with open(here / "yaqd_firmata" / "VERSION") as version_file:
     version = version_file.read().strip()
 
 
@@ -15,10 +15,10 @@ with open("README.md") as readme_file:
     readme = readme_file.read()
 
 
-requirements = ["yaqd-core>=2020.05.1","pyfirmata"]
+requirements = ["yaqd-core>=2020.05.1"]
 
 extra_requirements = {"dev": ["black", "pre-commit"]}
-extra_files = {"yaqd_arduino_gpio": ["VERSION"]}
+extra_files = {"yaqd_firmata": ["VERSION"]}
 
 setup(
     author="Brandon Mehlenbacher",
@@ -34,10 +34,10 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Topic :: Scientific/Engineering",
     ],
-    description="yaq daemon for controlling arduinos input/output interface",
+    description="yaq daemon for using microcontrollers via firmata protocol",
     entry_points={
         "console_scripts": [
-            "yaqd-arduino-gpio=yaqd_arduino_gpio._arduino_gpio:ArduinoGpio.main",
+            "yaqd-arduino-gpio=yaqd_firmata._arduino_gpio:ArduinoGpio.main",
         ],
     },
     install_requires=requirements,
@@ -47,10 +47,10 @@ setup(
     long_description_content_type="text/markdown",
     include_package_data=True,
     package_data=extra_files,
-    keywords="yaqd_arduino_gpio",
-    name="yaqd_arduino_gpio",
-    packages=find_packages(include=["yaqd_arduino_gpio", "yaqd_arduino_gpio.*"]),
-    url="https://gitlab.com/bmehlenbacher/yaqd_arduino_gpio",
+    keywords="yaqd-firmata",
+    name="yaqd-firmata",
+    packages=find_packages(include=["yaqd_firmata", "yaqd_firmata.*"]),
+    url="https://gitlab.com/yaq/yaqd-firmata",
     version=version,
     zip_safe=False,
 )

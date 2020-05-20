@@ -6,12 +6,12 @@ import pyfirmata
 from yaqd_core import Base
 
 
-#from .__version__ import __branch__
+from .__version__ import __branch__
 
 
 class ArduinoGpio(Base):
     _kind = "arduino-gpio"
-    _version = "0.1.0" #+ f"+{__branch__}" if __branch__ else ""
+    _version = "0.1.0" + f"+{__branch__}" if __branch__ else ""
     traits: List[str] = []
     defaults: Dict[str, Any] = {}
 
@@ -23,9 +23,6 @@ class ArduinoGpio(Base):
         self.mode = config["mode"] # in this case a for analog and d for digital
         self.io = config["io"] # i is input and o is output
         self._pin = self.board.get_pin(f"{self.mode}:{self.pinNumber}:{self.io}")
-        self.board = pyfirmata.Arduino(config["board"])
-        self.pinNumber = config["index"]
-        self.mode = config["mode"]
         
     def _load_state(self, state):
         """Load an initial state from a dictionary (typically read from the state.toml file).
@@ -53,10 +50,9 @@ class ArduinoGpio(Base):
             self._pin.write(position)
         elif self.mode == "a":
             print('Analogs are only inputs not outputs')
-        self.value = self._pin.read()
         
     def get_position(self):
-        return self.value
+        return self._pin.read()
 
     def get_mode(self):
         return self.mode
@@ -77,6 +73,5 @@ class ArduinoGpio(Base):
                 await asyncio.sleep(0.01)
 
 
-#if __name__ == "__main__": 
-#    config = {"port":38002,"board":"COM5","index":2, "mode": "digital"}
-#    cl = ArduinoGpio('uno',config,"")
+if __name__ == "__main__": 
+     ArduinoGpio()

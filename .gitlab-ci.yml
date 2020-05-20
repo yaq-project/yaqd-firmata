@@ -18,14 +18,14 @@ before_script:
   - pip install -U mypy
   - pip install -U yaqc
   - pip install -U yaqd-core
-  - pip install -U pyfirmata
   - pip install -e .
 
 # test stage
+
 mypy:
   stage: test
   script:
-    - mypy yaqd_arduino_gpio
+    - mypy yaqd_firmata
 entry:
   stage: test
   script:
