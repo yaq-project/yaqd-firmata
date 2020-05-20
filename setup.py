@@ -50,7 +50,7 @@ setup(
     keywords="yaqd_firmata",
     name="yaqd_firmata",
     packages=find_packages(include=["yaqd_firmata", "yaqd_firmata.*"]),
-    url="https://gitlab.com/yaq/yaqd_firmata",
+    url="https://gitlab.com/yaq/yaqd-firmata",
     version=version,
     zip_safe=False,
 )
