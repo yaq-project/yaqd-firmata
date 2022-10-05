@@ -20,10 +20,10 @@ class ArduinoGpio(Base):
         # Perform any unique initialization
         self.board = pyfirmata.Arduino(config["board"])
         self.pinNumber = config["pin"]
-        self.mode = config["mode"] # in this case a for analog and d for digital
-        self.io = config["io"] # i is input and o is output
+        self.mode = config["mode"]  # in this case a for analog and d for digital
+        self.io = config["io"]  # i is input and o is output
         self._pin = self.board.get_pin(f"{self.mode}:{self.pinNumber}:{self.io}")
-        
+
     def _load_state(self, state):
         """Load an initial state from a dictionary (typically read from the state.toml file).
 
@@ -49,14 +49,14 @@ class ArduinoGpio(Base):
             assert position == 1 or position == 0
             self._pin.write(position)
         elif self.mode == "a":
-            print('Analogs are only inputs not outputs')
-        
+            print("Analogs are only inputs not outputs")
+
     def get_position(self):
         return self._pin.read()
 
     def get_mode(self):
         return self.mode
-    
+
     async def update_state(self):
         """Continually monitor and update the current daemon state."""
         # If there is no state to monitor continuously, delete this function
@@ -67,11 +67,11 @@ class ArduinoGpio(Base):
             # This one waits for something to trigger the "busy" state
             # (Setting `self._busy = True)
             # Otherwise, you can simply `await asyncio.sleep(0.01)`
-            if self.mode == 'a':
+            if self.mode == "a":
                 await self._busy_sig.wait()
             else:
                 await asyncio.sleep(0.01)
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     ArduinoGpio.main()
